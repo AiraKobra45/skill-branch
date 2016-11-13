@@ -8,5 +8,5 @@ export default function canonize (url){
     return username;
   } else {
     return '@' + username;
-  };;
+  };
 }
