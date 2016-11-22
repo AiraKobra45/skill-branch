@@ -87,6 +87,57 @@ app.get('/task2C', function(req, res) {
   res.end( username );
 });
 
+app.get('/task2D', function(req, res) {
+  var color = req.query.color;
+  var colorHex = color;
+  var hex = new RegExp( /([0-9a-f]){3,6}/ig );
+  console.log('Start. Color = ' + colorHex);
+  if (typeof(colorHex) === 'undefined') {
+    console.log('*_1_');
+    //console.log(typeof (color));
+    res.send('Invalid color');
+  } else {
+    colorHex = colorHex.toLowerCase().trim();
+    var colorHexSec = colorHex;
+    colorHex = colorHex.match(hex);
+    console.log('RegExp value: ' + colorHex);
+    if ( colorHex === null) {
+      console.log('*_2_');
+      //console.log('*: if != null  ' + color.match(hex)) ;
+      //console.log(color.match(hex)  + '***');
+      res.send('Invalid color');
+    } else {
+      let can = colorHexSec.toString().match(/[^0-9a-f]/);
+      console.log('_ ' + can);
+      if ((can !== null) && (can != "#")) {
+        res.send('Invalid color');
+      } else {
+        let can1 = color.trim();
+        console.log(can1);
+        if ((can1.length > 7) ) return res.send('Invalid color');
+        colorHex = colorHex.toString();
+        //console.log('*: if == null  ' + color.match(hex)) ;
+        if (colorHex.length === 6) {
+          console.log('*_3_');
+          //console.log(color);
+          res.end('#' + colorHex);
+        } else {
+          if (colorHex.length === 3) {
+            console.log('*_4_');
+            colorHex = colorHex[0] + colorHex[0] + colorHex[1] + colorHex[1] + colorHex[2] + colorHex[2];
+            res.end('#' + colorHex);
+          } else {
+            console.log('*_5_');
+            res.send('Invalid color');
+          }
+
+        }
+      }
+    }
+  }
+
+});
+
 app.listen(3000, () => {
   console.log('Your app listening on port 3000!');
 });
